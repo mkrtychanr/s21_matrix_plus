@@ -1,6 +1,5 @@
 #ifndef SRC_S21_MATRIX_OOP_H_
 #define SRC_S21_MATRIX_OOP_H_
-#include <iostream>
 
 class S21Matrix {
     private:
@@ -10,8 +9,8 @@ class S21Matrix {
         bool isValidMatrix() const;
         void new_pointer(double **a, double *b) const;
         double det(double **a, int n) const;
-        S21Matrix fillMatrixWithMinors(const S21Matrix& rhs) const;
         S21Matrix getMatrixForMinor(int row, int col) const;
+        void fillMatrixWithMinors(const S21Matrix& rhs) const;
     public:
         S21Matrix();
         S21Matrix(const int rows, const int cols);

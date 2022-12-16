@@ -1,4 +1,5 @@
 #include "s21_matrix_oop.h"
+#include <iostream>
 #include <cmath>
 
 S21Matrix::S21Matrix() {
@@ -283,13 +284,14 @@ double S21Matrix::det(double **a, int n) const {
     return sum;
 }
 
-S21Matrix S21Matrix::fillMatrixWithMinors(const S21Matrix& rhs) const {
+void S21Matrix::fillMatrixWithMinors(const S21Matrix& rhs) const {
     if (rows_ == 1) {
-        return S21Matrix(rhs);
+        matrix_[0][0] = rhs.matrix_[0][0];
+        return;
     }
     for (int i = 0; i < rows_; i++) {
         for (int j = 0; j < cols_; j++) {
-            matrix_[i][j] *= pow(-1, i * rhs.rows_ + j) * rhs.getMatrixForMinor(i, j).Determinant();
+            matrix_[i][j] = pow(-1, i * rhs.rows_ + j) * rhs.getMatrixForMinor(i, j).Determinant();
         }
     }
 }
