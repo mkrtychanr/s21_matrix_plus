@@ -58,7 +58,6 @@ S21Matrix& S21Matrix::operator=(const S21Matrix& rhs) {
         throw std::logic_error("Invalid matrix");
     }
     if (this != &rhs) {
-        this->~S21Matrix();
         S21Matrix(rhs.rows_, rhs.cols_);
         for (int i = 0; i < rows_; i++) {
             for (int j = 0; j < cols_; j++) {
@@ -254,7 +253,7 @@ void S21Matrix::SetCols(int cols) {
 }
 
 bool S21Matrix::isValidMatrix() const {
-    return matrix_ != nullptr && rows_ > 0 && cols_ > 0;
+    return matrix_ != nullptr;
 }
 
 
