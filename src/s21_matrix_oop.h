@@ -1,25 +1,31 @@
 #ifndef SRC_S21_MATRIX_OOP_H_
 #define SRC_S21_MATRIX_OOP_H_
+#include <iostream>
 
 class S21Matrix {
     private:
         int rows_ = 0;
         int cols_ = 0;
         double **matrix_ = nullptr;
-
+        bool isValidMatrix() const;
+        void new_pointer(double **a, double *b) const;
+        double det(double **a, int n) const;
+        S21Matrix fillMatrixWithMinors(const S21Matrix& rhs) const;
+        S21Matrix getMatrixForMinor(int row, int col) const;
     public:
         S21Matrix();
-        S21Matrix(int rows, int cols);
+        S21Matrix(const int rows, const int cols);
         S21Matrix(const S21Matrix& rhs);
-        S21Matrix(S21Matrix&& other)
+        S21Matrix(S21Matrix&& rhs);
         ~S21Matrix();
 
         S21Matrix& operator=(const S21Matrix& rhs);
         S21Matrix& operator+=(const S21Matrix& rhs);
         S21Matrix& operator-=(const S21Matrix& rhs);
+        S21Matrix& operator*=(const double& rhs);
         S21Matrix& operator*=(const S21Matrix& rhs);
 
-        double& operator()(int i, int j) const;
+        double& operator()(int i, int j);
 
         bool EqMatrix(const S21Matrix& rhs) const;
         void SumMatrix(const S21Matrix& rhs);
@@ -33,14 +39,16 @@ class S21Matrix {
 
         int GetRows() const;
         int GetCols() const;
-        void SetRows();
-        void SetCols();
+        void SetRows(int rows);
+        void SetCols(int cols);
 
 };
 
 S21Matrix operator+(const S21Matrix& lhs, const S21Matrix& rhs);
 S21Matrix operator-(const S21Matrix& lhs, const S21Matrix& rhs);
 S21Matrix operator*(const S21Matrix& lhs, const S21Matrix& rhs);
-S21Matrix operator==(const S21Matrix& lhs, const S21Matrix& rhs);
+S21Matrix operator*(const S21Matrix& lhs, const double& rhs);
+S21Matrix operator*(const double& lhs, const S21Matrix& rhs);
+bool operator==(const S21Matrix& lhs, const S21Matrix& rhs);
 
 #endif  // SRC_S21_MATRIX_OOP_H_
