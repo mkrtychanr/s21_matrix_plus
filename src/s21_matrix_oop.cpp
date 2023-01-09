@@ -38,10 +38,12 @@ S21Matrix::S21Matrix(const S21Matrix& rhs) {
 
 S21Matrix::S21Matrix(S21Matrix&& rhs) {
     this->~S21Matrix();
-    rows_ = rhs.rows_;
-    cols_ = rhs.cols_;
-    matrix_ = rhs.matrix_;
-    rhs = S21Matrix();
+    this -> rows_ = rhs.rows_;
+    this -> cols_ = rhs.cols_;
+    this -> matrix_ = rhs.matrix_;
+    rhs.rows_ = 0;
+    rhs.cols_ = 0;
+    rhs.matrix_ = nullptr;
 }
 
 S21Matrix::~S21Matrix() {
@@ -58,12 +60,17 @@ S21Matrix& S21Matrix::operator=(const S21Matrix& rhs) {
         throw std::logic_error("Invalid matrix");
     }
     if (this != &rhs) {
-        S21Matrix(rhs.rows_, rhs.cols_);
-        for (int i = 0; i < rows_; i++) {
-            for (int j = 0; j < cols_; j++) {
-                matrix_[i][j] = rhs.matrix_[i][j];
+        this -> ~S21Matrix();
+        auto temp = S21Matrix(rhs.rows_, rhs.cols_);
+        for (int i = 0; i < temp.rows_; i++) {
+            for (int j = 0; j < temp.cols_; j++) {
+                temp.matrix_[i][j] = rhs.matrix_[i][j];
             }
         }
+        this -> rows_= temp.rows_;
+        this -> cols_= temp.cols_;
+        this -> matrix_ = temp.matrix_;
+        temp.matrix_ = nullptr;
     }
     return *this;
 }
@@ -232,24 +239,12 @@ int S21Matrix::GetCols() const {
     return cols_;
 }
 
-void S21Matrix::SetRows(int rows) {
-    S21Matrix temp = S21Matrix(rows, cols_);
-    for (int i = 0; i < rows && i < rows_; i++) {
-        for (int j = 0; j < cols_; j++) {
-            temp.matrix_[i][j] = matrix_[i][j];
-        }
-    }
-    *this = S21Matrix(std::move(temp));
+void S21Matrix::SetRows(const int rows) {
+    this -> rows_ = rows;
 }
 
 void S21Matrix::SetCols(int cols) {
-    S21Matrix temp = S21Matrix(rows_, cols);
-    for (int i = 0; i < rows_; i++) {
-        for (int j = 0; j < cols && j < cols_; j++) {
-            temp.matrix_[i][j] = matrix_[i][j];
-        }
-    }
-    *this = S21Matrix(std::move(temp));
+    this -> cols_ = cols;
 }
 
 bool S21Matrix::isValidMatrix() const {

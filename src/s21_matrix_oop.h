@@ -38,8 +38,8 @@ class S21Matrix {
 
         int GetRows() const;
         int GetCols() const;
-        void SetRows(int rows);
-        void SetCols(int cols);
+        void SetRows(const int rows);
+        void SetCols(const int cols);
 
 };
 
